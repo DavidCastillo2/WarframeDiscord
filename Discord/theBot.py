@@ -42,7 +42,7 @@ class MyBot:
     async def getArbi(self, ctx):
         arbiData = self.driver.getArbi()
         if arbiData is None:
-            await ctx.send("Current Arbitration data is still being parsed, check back later u lil bitch muffin")
+            await ctx.send("```Current Arbitration data is still being parsed, check back later u lil bitch muffin```")
         else:
             retVal = "```Current Arbitration Information:\n ***" + arbiData['node'] + "***"
             retVal = retVal + "\nEnemy Type: " + arbiData['enemy']
