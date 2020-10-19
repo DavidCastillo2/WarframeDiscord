@@ -16,8 +16,10 @@ class TennoDriver:
         if soup.text == "{}":
             return None
         else:
-            return json.loads(soup.text)
-
+            try:
+                return json.loads(soup.text)
+            except json.decoder.JSONDecodeError:
+                return None
 
 
 

@@ -15,7 +15,7 @@ class ArbiManager:
     def tick(self, driver):
         arbiData = driver.getArbi()
         if arbiData is not None:
-            results = self.r.findNode(arbiData['node'].lower())
+            results = self.r.findNode(arbiData['node'].lower(), arbiData['type'].lower(), arbiData['enemy'].lower)
 
             if results is not None:
                 results[1].alert()

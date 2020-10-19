@@ -9,15 +9,17 @@ class MyBot(commands.Bot):
     driver = TennoDriver()
     key = 'NzY2ODkxMTY1MTkwNDU1MzM2.X4p9DQ.wajExyD_YbsPvoLw84JYhp7gEMs'
 
-    def __init__(self, command_prefix="!", **options):
+    def __init__(self, command_prefix="!", testing=False, **options):
         super().__init__(command_prefix, **options)
-        self.loadCogs(self.driver)
+        if testing:
+            self.key = 'NjA0OTAyMzA2NzA5NzY2MTU0.XT0tLA.pAgvnSUh5AA_I-VIW0vAJbN-Gdc'
+        self.loadCogs(self.driver, testing)
 
     def begin(self):
         self.run(self.key)
 
-    def loadCogs(self, driver):
-        self.add_cog(arbiCommands(self, driver))
+    def loadCogs(self, driver, testing):
+        self.add_cog(arbiCommands(self, driver, testing))
 
     async def on_ready(self):
         # Load stupid fucking cuckload opus library
@@ -34,11 +36,14 @@ class MyBot(commands.Bot):
 
 
 class arbiCommands(commands.Cog):
-    def __init__(self, bot, driver):
+    def __init__(self, bot, driver, testing=False):
         self.bot = bot
         self.driver = driver
         self.arbi = ArbiManager()
-        self.channID = '766900390154862602'
+        if testing:
+            self.channID = '604313671019266051'
+        else:
+            self.channID = '766900390154862602'
         self.checkArbi.start()
 
     @tasks.loop(seconds=2.0)
@@ -56,7 +61,7 @@ class arbiCommands(commands.Cog):
             await botChannel.send(retVal)
 
     @commands.command()
-    async def getArbi(self, ctx):
+    async def Arbi(self, ctx):
         arbiData = self.driver.getArbi()
         if arbiData is None:
             await ctx.send("```Current Arbitration data is still being parsed, check back later u lil bitch muffin```")
@@ -64,8 +69,18 @@ class arbiCommands(commands.Cog):
             retVal = "```Current Arbitration Information" + '\n__________________________________________\n\n'
             retVal = retVal + "Node: " + arbiData['node']
             retVal = retVal + "\nEnemy Type: " + arbiData['enemy']
-            retVal = retVal + "\nType: " + arbiData['type'] + "```"
+            retVal = retVal + "\nType: " + arbiData['type'] + "\n"
+            alert = self.arbi.getAlert()
+            if alert is None:
+                retVal += "Alert Level: NONE"
+            else:
+                retVal += "Alert Level: " + alert
+            retVal += "```"
             await ctx.send(retVal)
+
+    @commands.command()
+    async def arbi(self, ctx):
+        await self.Arbi(ctx)
 
     @commands.command()
     async def commands(self, ctx):

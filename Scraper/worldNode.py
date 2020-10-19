@@ -1,5 +1,5 @@
 class basics:
-    modes = ['defense', 'survival', 'disruption', 'interception', 'excavation']
+    modes = ['defense', 'survival', 'disruption', 'interception', 'excavation', 'dark sector survival']
     factions = ["grineer", "infested", "corpus", "corrupted"]
 
 
@@ -10,6 +10,13 @@ class WarframeNode:
         self.mode = mode
         return
 
+    def compare(self, name, faction, mode):
+        if self.name.find(name) != -1:
+            if self.faction.find(faction) != -1:
+                if self.mode.find(mode) != -1:
+                    return True
+        return False
+
 
 class NodeManager:
     b = basics()
@@ -18,7 +25,7 @@ class NodeManager:
         self.nodes = []
         self.alert = itemFoundMethod
 
-    def __addNode(self, node):
+    def _addNode(self, node):
         self.nodes.append(node)
 
     def addNode(self, name, faction, mode):
@@ -32,7 +39,7 @@ class NodeManager:
 
     def removeNode(self, name, faction):
         for n in self.nodes:
-            if n.name.find(name):
+            if n.name.find(name) != -1:
                 if faction == "any":
                     self.nodes.remove(n)
                 elif n.faction == faction:
@@ -40,9 +47,9 @@ class NodeManager:
                     break
         return None
 
-    def findNode(self, name):
+    def findNode(self, name, mode, faction):
         for n in self.nodes:
-            if n.name.find(name):
+            if n.compare(name, faction, mode):
                 return n
         return None
 
@@ -55,9 +62,9 @@ class Rankings:
     def addManager(self, manager, ranking):
         self.nodeManagers[ranking] = manager
 
-    def findNode(self, name):
+    def findNode(self, name, mode, faction):
         for key, m in self.nodeManagers.items():
-            node = m.findNode(name)
+            node = m.findNode(name, mode, faction)
             if node is not None:
                 return node, m
         return None
