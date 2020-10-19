@@ -7,7 +7,7 @@ from Scraper.arbiManager import ArbiManager
 
 class MyBot(commands.Bot):
     driver = TennoDriver()
-    key = 'NjA0OTAyMzA2NzA5NzY2MTU0.XT0tLA.pAgvnSUh5AA_I-VIW0vAJbN-Gdc'
+    key = 'NzY2ODkxMTY1MTkwNDU1MzM2.X4p9DQ.wajExyD_YbsPvoLw84JYhp7gEMs'
 
     def __init__(self, command_prefix="!", **options):
         super().__init__(command_prefix, **options)
