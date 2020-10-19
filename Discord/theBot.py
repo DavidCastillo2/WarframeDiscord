@@ -46,7 +46,7 @@ class arbiCommands(commands.Cog):
             self.channID = '766900390154862602'
         self.checkArbi.start()
 
-    @tasks.loop(seconds=2.0)
+    @tasks.loop(seconds=600.0)
     async def checkArbi(self):
         self.arbi.tick(self.driver)
         alert = self.arbi.getAlert()
