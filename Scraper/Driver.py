@@ -17,7 +17,7 @@ class TennoDriver:
             return None
         else:
             try:
-                arbiDic = json.loads(soup.test)
+                arbiDic = json.loads(soup.text)
                 temp = arbiDic['enemy']
                 temp = arbiDic['node']
                 temp = arbiDic['type']
