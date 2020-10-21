@@ -17,6 +17,12 @@ class WarframeNode:
                     return True
         return False
 
+    def compareNode(self, node):
+        if node is None:
+            return False
+        else:
+            return self.compare(node.name, node.faction, node.mode)
+
 
 class NodeManager:
     b = basics()

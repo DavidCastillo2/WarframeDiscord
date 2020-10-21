@@ -42,8 +42,10 @@ class arbiCommands(commands.Cog):
         self.arbi = ArbiManager()
         if testing:
             self.channID = '604313671019266051'
+            self.channID2 = self.channID
         else:
             self.channID = '766900390154862602'
+            self.channID2 = '768361513035235348'
         self.checkArbi.start()
 
     @tasks.loop(seconds=600.0)
@@ -59,6 +61,18 @@ class arbiCommands(commands.Cog):
             retVal = retVal + "\nEnemy Type: " + arbiData['enemy']
             retVal = retVal + "\nType: " + arbiData['type'] + "```"
             await botChannel.send(retVal)
+        else:
+            node = self.arbi.grabArbi(self.driver)
+            if node is not None:
+                await self.postArbi(node)
+
+    async def postArbi(self, node):
+        botChannel = await self.bot.fetch_channel(self.channID2)
+        retVal = "Current Arbitration Information" + '\n__________________________________________\n\n'
+        retVal = retVal + "Node: " + node.name
+        retVal = retVal + "\nEnemy Type: " + node.faction
+        retVal = retVal + "\nType: " + node.mode + "```"
+        await botChannel.send(retVal)
 
     @commands.command()
     async def Arbi(self, ctx):

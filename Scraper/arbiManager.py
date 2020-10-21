@@ -1,4 +1,4 @@
-from Scraper.worldNode import Rankings, NodeManager
+from Scraper.worldNode import Rankings, NodeManager, WarframeNode
 
 
 class ArbiManager:
@@ -7,6 +7,8 @@ class ArbiManager:
         self.alert = None
         self.oldArbi = None
         self.currArbi = None
+        self._oldArbi = None
+        self._currArbi = None
         self.r = Rankings()
         self.fillRankA()
         self.fillRankB()
@@ -40,6 +42,18 @@ class ArbiManager:
         else:
             self.clearAlert()
             return None
+
+    def grabArbi(self, driver):
+        arbiData = driver.getArbi()
+        if arbiData is not None:
+            tempNode = WarframeNode(name=arbiData['node'].lower(), mode=arbiData['type'].lower(),
+                                    faction=arbiData['enemy'].lower)
+            if tempNode.compareNode(self._currArbi):
+                self._oldArbi = self._currArbi
+                self._currArbi = tempNode
+                return tempNode
+            else:
+                return None
 
     def fillRankA(self):
         a = NodeManager(self.highAlert)
