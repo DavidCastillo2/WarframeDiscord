@@ -47,12 +47,14 @@ class ArbiManager:
         arbiData = driver.getArbi()
         if arbiData is not None:
             tempNode = WarframeNode(name=arbiData['node'].lower(), mode=arbiData['type'].lower(),
-                                    faction=arbiData['enemy'].lower)
-            if tempNode.compareNode(self._currArbi):
+                                    faction=arbiData['enemy'].lower())
+            # This means its a new node
+            if not tempNode.compareNode(self._currArbi):
                 self._oldArbi = self._currArbi
                 self._currArbi = tempNode
                 return tempNode
             else:
+                # This means its still the same Arbi
                 return None
 
     def fillRankA(self):
