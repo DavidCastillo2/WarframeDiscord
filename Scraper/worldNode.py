@@ -1,5 +1,6 @@
 class basics:
-    modes = ['defense', 'survival', 'disruption', 'interception', 'excavation', 'dark sector survival']
+    modes = ['defense', 'survival', 'disruption', 'interception', 'excavation', 'dark sector survival',
+             'dark sector disruption']
     factions = ["grineer", "infested", "corpus", "corrupted"]
 
 
@@ -37,7 +38,7 @@ class NodeManager:
     def addNode(self, name, faction, mode):
         if faction == "any":
             for f in self.b.factions:
-                self.removeNode(name, faction)
+                self.removeNode(name, f)
                 self.nodes.append(WarframeNode(name, f, mode))
         else:
             self.removeNode(name, faction)

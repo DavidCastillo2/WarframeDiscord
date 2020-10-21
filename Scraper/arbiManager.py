@@ -17,11 +17,24 @@ class ArbiManager:
     def tick(self, driver):
         arbiData = driver.getArbi()
         if arbiData is not None:
-            results = self.r.findNode(arbiData['node'].lower(), arbiData['type'].lower(), arbiData['enemy'].lower)
+            args = self.cleanData(arbiData)
+            results = self.r.findNode(args[0], args[1], args[2])
 
             if results is not None:
                 results[1].alert()
                 self.currArbi = arbiData['node'].lower()
+
+    def cleanData(self, arbiData):
+        retVal = []
+        name = arbiData['node'].lower()
+        index = name.find('(')
+        name = name[0:index-1]
+        missionType = arbiData['type'].lower()
+        enemy = arbiData['enemy'].lower()
+        retVal.append(name)
+        retVal.append(missionType)
+        retVal.append(enemy)
+        return retVal
 
     def highAlert(self):
         self.alert = "high"

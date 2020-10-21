@@ -65,7 +65,8 @@ class arbiCommands(commands.Cog):
         # Always ask is this a new Arbi
         node = self.arbi.grabArbi(self.driver)
         if node is not None:
-            await self.postArbi(node)
+            return
+            #  await self.postArbi(node)
 
     async def postArbi(self, node):
         botChannel = await self.bot.fetch_channel(self.channID2)
