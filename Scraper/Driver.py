@@ -18,11 +18,14 @@ class TennoDriver:
         else:
             try:
                 arbiDic = json.loads(soup.text)
-                temp = arbiDic['enemy']
-                temp = arbiDic['node']
-                temp = arbiDic['type']
+                try:
+                    temp = arbiDic['enemy']
+                    temp = arbiDic['node']
+                    temp = arbiDic['type']
+                except KeyError:
+                    return None
                 return json.loads(soup.text)
-            except json.decoder.JSONDecodeError or KeyError:
+            except json.decoder.JSONDecodeError:
                 return None
 
 
