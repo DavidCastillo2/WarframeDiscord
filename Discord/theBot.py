@@ -1,4 +1,5 @@
 import discord
+import os
 from discord.ext import commands, tasks
 
 from Scraper.Driver import TennoDriver
@@ -7,12 +8,12 @@ from Scraper.arbiManager import ArbiManager
 
 class MyBot(commands.Bot):
     driver = TennoDriver()
-    key = 'NzY2ODkxMTY1MTkwNDU1MzM2.X4p9DQ.wajExyD_YbsPvoLw84JYhp7gEMs'
+    key = os.getenv('BOT_LIVE_KEY')
 
     def __init__(self, command_prefix="!", testing=False, **options):
         super().__init__(command_prefix, **options)
         if testing:
-            self.key = 'NjA0OTAyMzA2NzA5NzY2MTU0.XT0tLA.pAgvnSUh5AA_I-VIW0vAJbN-Gdc'
+            self.key = os.getenv('BOT_TESTING_KEY')
         self.loadCogs(self.driver, testing)
 
     def begin(self):
@@ -41,11 +42,11 @@ class arbiCommands(commands.Cog):
         self.driver = driver
         self.arbi = ArbiManager()
         if testing:
-            self.channID = '604313671019266051'
+            self.channID = os.getenv('BOT_TEST_CHANNEL')
             self.channID2 = self.channID
         else:
-            self.channID = '766900390154862602'
-            self.channID2 = '768361513035235348'
+            self.channID = os.getenv('ARBI_UPDATES_CHANNEL')
+            self.channID2 = os.getenv('ARBI_BOT_COMMANDS_CHANNEL')
         self.checkArbi.start()
 
     @tasks.loop(seconds=600.0)
